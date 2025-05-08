@@ -213,43 +213,44 @@ writeRoundToTable(thisRound,roundIndex);
 * @global userData: the current user's data object
 *************************************************************************/
 function updateRoundInTable(rowIndex) {
-const thisRound = document.getElementById("r-" + GlobalUserData.rounds[rowIndex].roundNum);
-writeRoundToTable(thisRound,rowIndex);
+  // Potential issue: What happens if rowIndex is out of bounds?
+  const thisRound = document.getElementById("r-" + GlobalUserData.rounds[rowIndex].roundNum);
+  writeRoundToTable(thisRound,rowIndex);
 }
 
 /*************************************************************************
- * @function deleteRound
- * @desc
- * Deletes a round from the "Rounds" table and from local storage
- * @param roundId -- the unique id of the round to be deleted
- * @returns -- true if round could be deleted, false otherwise
- *************************************************************************/
+* @function deleteRound
+* @desc
+* Deletes a round from the "Rounds" table and from local storage
+* @param roundId -- the unique id of the round to be deleted
+* @returns -- true if round could be deleted, false otherwise
+*************************************************************************/
 function deleteRound(roundId) {
+  // Suggestion: Consider adding a check to ensure roundId exists before filtering
   GlobalUserData.rounds = GlobalUserData.rounds.filter(function (round) {
       return round.roundNum !== roundId;
   });
 }
 
 /*************************************************************************
- * @function confirmDelete
- * @desc
- * Present pop-up modal dialog asking user to confirm delete operation
- * @param roundId -- the unique id of the round to be deleted
- * @returns -- true if user confirms delete, false otherwise
- *************************************************************************/
+* @function confirmDelete
+* @desc
+* Present pop-up modal dialog asking user to confirm delete operation
+* @param roundId -- the unique id of the round to be deleted
+* @returns -- true if user confirms delete, false otherwise
+*************************************************************************/
 function confirmDelete(roundId) {
-  //TO DO: Present modal dialog prompting user to confirm delete
-  //Return true if user confirms delete, false otherwise
   let modal = new bootstrap.Modal(
       document.getElementById("confirmDeleteRoundModal")
   );
   let confirmBtn = document.getElementById("confirmDeleteBtn");
+
+  // Potential bug: Event listener is added every time confirmDelete is called — could result in duplicates
   confirmBtn.addEventListener("click", function (event) {
       event.preventDefault();
       console.log("deleting round with id " + roundId);
       for (var i = 0; i < GlobalRoundsTable.rows.length; i++) {
           let row = GlobalRoundsTable.rows[i];
-          // Check if the id of the row matches the id you're looking for
           if (row.id === "r-" + roundId) {
               GlobalRoundsTable.deleteRow(i);
               break;
@@ -266,8 +267,10 @@ function confirmDelete(roundId) {
           " speedgolf rounds";
       modal.hide();
   });
+
   modal.show();
 }
+
 
 /*************************************************************************
 * @function populateRoundsTable 
