@@ -1,0 +1,40 @@
+# CodiumAI PR Agent Configuration
+pr_agent:
+  # Enable or disable PR Agent globally
+  enabled: true
+  
+  # Review settings
+  auto_review: false        # Automatically review all PRs
+  review_comment_lgtm: false  # Don't comment when everything looks good
+  lazy_review: true           # Skip reviewing unchanged files in the PR
+  
+  # Review depth and focus
+  review_level: detailed      # Options: basic, standard, detailed
+  focus:
+    - security                # Focus on security issues
+    - performance             # Focus on performance issues
+    - bugs                    # Focus on potential bugs
+    - best_practices          # Focus on coding best practices
+  
+  # Language-specific settings
+  languages:
+    javascript:
+      enabled: true
+      eslint_rules: recommended  # Use recommended ESLint rules
+    html:
+      enabled: true
+    css:
+      enabled: true
+  
+  # Custom rules
+  custom_rules:
+    - name: "No console.log"
+      pattern: "console\\.log"
+      message: "Avoid using console.log in production code"
+      severity: warning
+  
+  # Exclude patterns (files/folders to ignore)
+  exclude_patterns:
+    - "**/*.test.js"
+    - "dist/**"
+    - "node_modules/**"
